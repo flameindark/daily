@@ -26,7 +26,7 @@ module.exports = {
             apiOptions: {
                 cssImageRef: "~sprite.png"
             }
-        })
+        }),
     ],
     resolve: {
         modules: [
@@ -61,12 +61,20 @@ module.exports = {
                 include: [
                     path.resolve(__dirname, 'src')
                 ],
-                use: {
-                    loader: 'file-loader',
-                    options: {
-
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+    
+                        }
+                    },
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
                     }
-                }
+                ]
             },
             {
                 test: /\.less$/,
@@ -86,6 +94,10 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            // 使用DataURL
+            {
+
             }
         ]
     },
