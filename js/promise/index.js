@@ -185,3 +185,9 @@ function handle(callback) {
         callback.reject(e);
     } 
 }
+module.exports = {
+    Promise1,
+    Promise2,
+    Promise3,
+    Promise4
+}
