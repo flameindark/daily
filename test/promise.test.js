@@ -1,23 +1,38 @@
-// import {
-//  Promise1,
-//  Promise2,
-//  Promise3,
-//  Promise4
-// } from './js/promise/index.js'
+const {
+ Promise1,
+ Promise2,
+ Promise3,
+ Promise4
+} = require('../js/promise/index.js')
 
 const assert = require('assert');
-
 // 测试套件
-it('Promise done', function(done) {
-    // 这里写测试代码
-    // setImmediate(done);
-    setImmediate(done);
+it('Promise1 基础功能测试', function(done) {
+    new Promise1(function(resolve, reject) {
+        setTimeout(function() {
+            resolve(1);
+        }, 100);
+    }).then(function(res) {
+        done()
+    })
 });
 
-it('should complete this test', function (done) {
-    return new Promise(function (resolve) {
-        assert.ok(true);
-        resolve();
+it('Promise3 链式调用功能测试', function(done) {
+    var a = 1;
+    var pr2 = new Promise3(function(resolve, reject) {
+        setTimeout(function() {
+            a++;
+            resolve();
+        }, 100);
+    }).then(function() {
+        return new Promise3(function(resolve, reject) {
+            setTimeout(function() {
+                a++;
+                resolve(1);
+            }, 100);
+        })
+    }).then(function() {
+        console.log(a);
+        done();
     })
-    .then(done);
 });

@@ -8,8 +8,9 @@ function Promise1(fn) {
         return this; // 能够实现链式调用
     }
     function resolve(value) {
-        callbacks.forEach(function() {
-            callbacks(value) //依次调用then里面的函数（但是这里如果是再来个Promise就不能按照期待的方式运行了）
+        console.log(callbacks)
+        callbacks.forEach(function(callback) {
+            callback(value) //依次调用then里面的函数（但是这里如果是再来个Promise就不能按照期待的方式运行了）
         })
     }
     fn(resolve)
@@ -33,8 +34,8 @@ function Promise2(fn) {
         value = newVal;
         state = 'fulfilled';
         setTimeout(function() {
-            callbacks.forEach(function() {
-                callbacks(value)
+            callbacks.forEach(function(callback) {
+                callback(value)
             })
         }, 0) //利用js的执行机制，等promise里的同步的任务执行完再执行then里面的函数
     }
@@ -82,8 +83,8 @@ function Promise3(fn) {
         value = newVal;
         state = 'fulfilled';
         setTimeout(function() {
-            callbacks.forEach(function() {
-                callbacks(value)
+            callbacks.forEach(function(callback) {
+                handle(callback)
             })
         }, 0)
     }
@@ -185,7 +186,7 @@ function handle(callback) {
         callback.reject(e);
     } 
 }
-module.exports = {
+module.exports =  {
     Promise1,
     Promise2,
     Promise3,
