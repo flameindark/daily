@@ -8,6 +8,6 @@
     "babel-register": "^6.26.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --require babel-core/register"
   }
 }

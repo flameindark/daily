@@ -1,10 +1,15 @@
-const {
- Promise1,
- Promise2,
- Promise3,
- Promise4
-} = require('../js/promise/index.js')
-
+// const {
+//  Promise1,
+//  Promise2,
+//  Promise3,
+//  Promise4
+// } = require('../js/promise/index.js')
+import {
+    Promise1,
+    Promise2,
+    Promise3,
+    Promise4
+} from '../js/promise/index'
 const assert = require('assert');
 // 测试套件
 it('Promise1 基础功能测试', function(done) {
@@ -35,4 +40,12 @@ it('Promise3 链式调用功能测试', function(done) {
         console.log(a);
         done();
     })
+});
+
+describe('Array', function() {
+    describe('#indexOf()', function() {
+        it('should return -1 when the value is not present', function() {
+        assert.equal([1,2,3].indexOf(4), -1);
+        });
+    });
 });

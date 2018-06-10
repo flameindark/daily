@@ -1,18 +1,20 @@
-// @import '~sprite.less';
+@import '~sprite.scss';
 body {
-    background: url(../images/bg.png);
+    background: url('../images/bg.png') no-repeat;
     font-weight: bold;
 }
 #app {
     // background: sprite(@emoji-13);
     // .sprite(@emoji-13);
+    // @include sprite($emoji-15);
     width: 100%;
     height: 800px;
 }
 #image {
     // background: sprite(@emoji-15);
     // .sprite(@emoji-15);
+    @include sprite($emoji-13);
     float: right;
-    width: 40%;
+    width: 200px;
     height: 200px;
 }

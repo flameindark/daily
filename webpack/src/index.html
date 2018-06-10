@@ -7,6 +7,18 @@
     <title>Daliy Webpack</title>
 </head>
 <body>
+    <style>
+        body {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
     <div id="app"></div>
+    <script>
+        var oDiv = document.createElement('div');
+        var app = document.getElementById('app');
+        oDiv.innerHTML = '<div id="testMinify">测试js的压缩效果</div>'
+        app.appendChild(oDiv);
+    </script>
 </body>
 </html>
