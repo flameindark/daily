@@ -1,22 +1,25 @@
-// 多加自定义的loader
+// 多加自定义的loader 以及 plugin
+// 添加调试插件，测试调试
 const path = require('path')
 const UglifyPlugin = require('uglifyjs-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const SpritesmithPlugin = require('webpack-spritesmith')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const FileListPlugin = require('./plugins/FileListPlugin')
 
 module.exports = {
     entry: './src/2.0/index.js', //入口文件
     plugins: [
-        new UglifyPlugin(), //混淆html
+        new webpack.SourceMapDevToolPlugin(),
+        // new UglifyPlugin(), //混淆html
         new HtmlWebpackPlugin({
             filename: './index.html',
             template: './src/index.html',
-            minify: {
-                minifyCSS: true,
-                minifyJS: true
-            }
+            // minify: {
+            //     minifyCSS: true,
+            //     minifyJS: true
+            // }
         }), //使用html模板嵌入打包后的js
         new webpack.HotModuleReplacementPlugin(),
         //雪碧图的plugin设置
@@ -33,7 +36,8 @@ module.exports = {
                 cssImageRef: "~sprite.png"
             }
         }),
-        new ExtractTextPlugin("index.css") //生成单独css的插件最后生成的css名称
+        new ExtractTextPlugin("index.css"), //生成单独css的插件最后生成的css名称
+        new FileListPlugin(),
     ],
     resolve: {
         modules: ["node_modules", "sprite"]
@@ -41,7 +45,8 @@ module.exports = {
     output: {
         //打包文件保存位置
         filename: '[name].bundle01.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: 'http://localhost:9000'
     },
     module: {
         // loaders
@@ -60,9 +65,9 @@ module.exports = {
                 ],
                 use: ['style-loader',{
                     loader: 'css-loader',
-                    options: {
-                        minimize: true
-                    }
+                    // options: {
+                    //     minimize: true
+                    // }
                 }]
             },
             {
@@ -108,9 +113,9 @@ module.exports = {
                     use: [
                     {
                         loader: 'css-loader',
-                        options: {
-                            minimize: true
-                        }
+                        // options: {
+                        //     minimize: true
+                        // }
                     }, 'sass-loader']
                 })
             },
@@ -135,10 +140,5 @@ module.exports = {
         compress: true,
         port: 9000,
         hot: true
-    },
-    optimization: {
-        splitChunks: {
-            chunks: "all" //这样会把所有模块的公共的部分分离出来成为一个单独的组件
-        }
     }
 }
