@@ -7,7 +7,7 @@ class FileListPlugin {
             for(var filename in compilation.assets) {
                 fileList += ('-' + filename + '\n');
             }
-            console.log(compilation)
+            console.log(compilation.assets)
             compilation.assets['./filelist.md'] = {
                 source: function() {
                     return fileList;
