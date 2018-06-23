@@ -1,0 +1,18 @@
+body,html {
+    margin: 0;
+    padding: 0;
+}
+.box {
+    display: flex;
+    width: 20rem;
+    height: 10rem;
+    border: 1px solid #ccc;
+    margin: 4rem auto;
+}
+.img {
+    width: 6rem;
+    height: 8rem;
+}
+.text {
+    width: 10rem;
+}

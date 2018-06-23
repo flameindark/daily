@@ -16,7 +16,7 @@ function require(p){
 require.modules = {};
 
 require.resolve = function (path){
-    // 解析path, 解析顺序 [path].js  [path]/index.js  [path]
+// 解析path, 解析顺序 [path].js  [path]/index.js  [path]
 var orig = path;
 var reg = path + '.js';
 var index = path + '/index.js';
