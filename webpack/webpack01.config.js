@@ -5,6 +5,7 @@ const webpack = require('webpack')
 const SpritesmithPlugin = require('webpack-spritesmith')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+console.log(webpack);
 module.exports = {
     entry: './src/1.0/index.js', //入口文件
     plugins: [
