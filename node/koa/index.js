@@ -21,14 +21,13 @@ app.use(async (ctx, next) => {
 });
 
 app.use(erroHandle);
-app.use((ctx, next) => {
-  koaJwt({
+
+app.use(koaJwt({
     secret,
   }).unless({
     path: [/\/register/, /\/login/, /^\/public/],
   })
-  next();
-}) 
+)
 
 app.use((ctx, next) => {
   if(ctx.request.url === "/login") {
@@ -36,7 +35,7 @@ app.use((ctx, next) => {
       message: '登录成功',
       token: jwt.sign({
         data: user,
-        exp: Math.floor(Date.now() / 1000) + 20, // 60 seconds * 60 minutes = 1 hour
+        exp: Math.floor(Date.now() / 1000) + 15, // 60 seconds * 60 minutes = 1 hour
       }, secret),
     }
   }
@@ -50,7 +49,7 @@ app.use(function(ctx, next){
     return next();
   }
 });
-app.use(async function(ctx){
+app.use(async function(ctx, next){
   if (ctx.url.match(/^\/api/)) {
     const token = ctx.header.authorization  // 获取jwt
     let payload
@@ -61,18 +60,30 @@ app.use(async function(ctx){
           payload
         }
       } catch(e) {
+        console.log(e)
         if(e.name === 'TokenExpiredError') {
           ctx.body = '登录信息已经过期啦，请重新登录'
+        } else {
+          ctx.body = e.message;
         }
       }
     } else {
         ctx.body = {
-            message: 'token 错误',
-            code: -1
+          message: 'token 错误',
+          code: -1
         }
     }
     // ctx.body = 'protected\n';
+  } else {
+    next()
   }
 });
-
+app.use(async function(ctx){
+  if (ctx.url.match(/^\/test/)) {
+    ctx.body =  ctx.header.authorization  // 获取jwt
+  }
+});
+app.on('error', (err, ctx) => {
+  console.error('server error', err, ctx)
+});
 app.listen(3000)
