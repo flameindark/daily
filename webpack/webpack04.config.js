@@ -154,5 +154,6 @@ module.exports = {
         splitChunks: {
             chunks: "all" //这样会把所有模块的公共的部分分离出来成为一个单独的组件
         }
-    }
+    },
+    devtool: isProduction ? null : 'source-map'
 }

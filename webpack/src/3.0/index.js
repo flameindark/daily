@@ -1,3 +1,4 @@
+alert('index')
 var oDiv = document.createElement('div');
 var app = document.getElementById('app');
 let str = '';
