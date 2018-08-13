@@ -1,12 +1,8 @@
 
 import Router from 'koa-router'
-import jwt from 'jsonwebtoken'
-import {readFileThunk} from './utils/index'
-import path from 'path'
-import {qiniuConfig} from './config'
-import fs from 'fs-promise';
-import multer from 'koa-multer'
-
+import user from './user'
+import upload from './upload'
+import api from './api'
 
 
 var router = new Router();
@@ -57,8 +53,12 @@ var router = new Router();
 //   // ctx.body = _content;
 // })
 
+router.use('/user',user.routes(),user.allowedMethods())
+router.use('/upload',upload.routes(),upload.allowedMethods())
+router.use('/api',api.routes(),api.allowedMethods())
+
 // 404路由
-router.get('*', async (ctx, next) => {
+router.get('/*', (ctx,next)=> {
   ctx.throw(404)
 })
 export default router;
