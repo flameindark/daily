@@ -5,7 +5,13 @@ let qiniuConfig = {
   expires: 7200
 }
 const secret = 'flameindark';
+const controllersPath = './controllers/*.js';
+const DbConfig = {
+  url: 'mongodb://localhost/test'
+}
 export {
   qiniuConfig,
-  secret
+  secret,
+  controllersPath,
+  DbConfig
 };

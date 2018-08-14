@@ -6,6 +6,8 @@ import koaJwt from 'koa-jwt'
 import koaBody from 'koa-body'
 import multer from 'koa-multer'
 import cors from 'koa-cors'
+import {createAllRoutes} from './utils/routerDecorator'
+import {connect} from './utils/connectDB'
 
 const secret = 'flameindark';
 const user = {
@@ -16,6 +18,10 @@ const user = {
 // 实例化koa
 var app = new koa();
 
+// 连接数据库
+(async () => {
+  await connect()
+})()
 
 // 错误处理
 app.use(erroHandle);
@@ -41,7 +47,7 @@ app.use(cors());
 
 
 // 路由
-app.use(router.routes(), router.allowedMethods())
+app.use(createAllRoutes(), router.allowedMethods())
 
 // 监听3000端口
 app.listen(3000)
