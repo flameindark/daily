@@ -31,11 +31,25 @@ export default class SaveRouter {
     }
 
     @method({
-        method: 'post',
+        method: 'put',
         path: '/:id'
     })
     async update(ctx, next) {
         let data = await sArticle.update(new mongoose.Types.ObjectId(ctx.params.id));
         ctx.body = data;
+    }
+    @method ({
+        method: 'post',
+        path: '/'
+    })
+    async add(ctx, next) {
+        await sArticle.add().then(data => {
+            ctx.body = data;
+        }).catch(err => {
+            ctx.body = {
+                error: 1,
+                message: 'fail'
+            }
+        });
     }
 }
