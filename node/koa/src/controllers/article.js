@@ -1,3 +1,11 @@
+import mongoose from 'mongoose'
+import UserService from '../service/article'
+import {reqPath, get, put, post, del} from '../utils/routerDecorator'
+
+
+let sUser = new UserService();
+
+
 import Router from 'koa-router'
 import Redis from 'ioredis'
 import mongoose, { Schema } from 'mongoose'
@@ -11,39 +19,40 @@ var redis = new Redis();
 let sArticle = new ArticleService();
 
 
-@reqPath('/save')
+@reqPath('/article')
 export default class SaveRouter {
-    @method({
-        method: 'get',
-        path: '/list'
-    })
+    @get('/list')
     async getList(ctx, next) {
         let data = await sArticle.finds();
         ctx.body = data;
     }
-    @method({
-        method: 'get',
-        path: '/:id'
-    })
+    @get('/:id')
     async find(ctx, next) {
         let data = await sArticle.find(ctx.params.id);
         ctx.body = data;
     }
 
-    @method({
-        method: 'put',
-        path: '/:id'
-    })
+    @put('/:id')
     async update(ctx, next) {
         let data = await sArticle.update(new mongoose.Types.ObjectId(ctx.params.id));
         ctx.body = data;
     }
-    @method ({
-        method: 'post',
-        path: '/'
-    })
+
+    @post('/')
     async add(ctx, next) {
         await sArticle.add().then(data => {
+            ctx.body = data;
+        }).catch(err => {
+            ctx.body = {
+                error: 1,
+                message: 'fail'
+            }
+        });
+    }
+
+    @del('/:id')
+    async delete(ctx, next) {
+        await sArticle.delete(ctx.params.id).then(data => {
             ctx.body = data;
         }).catch(err => {
             ctx.body = {

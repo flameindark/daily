@@ -8,16 +8,45 @@ let router = new Router();
 
 // controller的请求基础目录
 const symbolPrefix = Symbol('prefix');
+
 const reqPath = path => target =>{
   target.prototype[symbolPrefix]=path;
 }
 
-// 方法修饰器
-const method = conf => (target, name, descriptor) => {
+const addMethod =  conf =>  (target, name, descriptor) => {
   allRouters.set({
     target,
     ...conf
   }, target[name])
+}
+
+// 方法修饰器
+const get = path => {
+  return addMethod({
+    method: 'get',
+    path: path
+  })
+}
+
+const post = path => {
+  return addMethod({
+    method: 'post',
+    path: path
+  })
+}
+
+const put = path => {
+  return addMethod({
+    method: 'put',
+    path: path
+  })
+}
+
+const del = path => {
+  return addMethod({
+    method: 'delete',
+    path: path
+  })
 }
 
 const createAllRoutes = function(apiPath) {
@@ -33,6 +62,9 @@ const createAllRoutes = function(apiPath) {
 
 export {
   reqPath,
-  method,
+  post,
+  get,
+  del,
+  put,
   createAllRoutes
 }
