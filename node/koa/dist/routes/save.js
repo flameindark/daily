@@ -1,14 +1,33 @@
-import Router from 'koa-router'
-import Redis from 'ioredis'
-import mongoose, { Schema } from 'mongoose'
-import Article from '../models/article'
-import ArticleService from '../service/article'
-import {reqPath, get} from '../utils/routerDecorator'
+'use strict';
 
-let router = new Router();
-var redis = new Redis();
+var _koaRouter = require('koa-router');
 
-let sArticle = new ArticleService();
+var _koaRouter2 = _interopRequireDefault(_koaRouter);
+
+var _ioredis = require('ioredis');
+
+var _ioredis2 = _interopRequireDefault(_ioredis);
+
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
+var _article = require('../models/article');
+
+var _article2 = _interopRequireDefault(_article);
+
+var _article3 = require('../service/article');
+
+var _article4 = _interopRequireDefault(_article3);
+
+var _routerDecorator = require('../utils/routerDecorator');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = new _koaRouter2.default();
+var redis = new _ioredis2.default();
+
+var sArticle = new _article4.default();
 
 // @reqPath('/save')
 // export default class SaveRouter {
@@ -66,7 +85,6 @@ let sArticle = new ArticleService();
 //     // 开始连接
 //     mongoose.connect('mongodb://localhost/test');
 
-    
 
 //     // redis.pipeline([
 //     //     ['set', 'foo', 'bar'],

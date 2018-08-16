@@ -6,8 +6,9 @@ import {secret} from '../config'
 
 export default  class UserService {
   async login(user) {
-    let data = mUser.find(user);
-    if(data) {
+    let data = await mUser.find(user);
+    console.log(data);
+    if(data.length > 0) {
       return {
         error: 0,
         message: '登录成功',

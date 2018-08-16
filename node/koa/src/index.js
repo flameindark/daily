@@ -5,6 +5,12 @@ import bodyparser from 'koa-bodyparser'
 import cors from 'koa-cors'
 import {createAllRoutes} from './utils/routerDecorator'
 import {connect} from './utils/connectDB'
+import {resolve} from 'path'
+import koaJwt from 'koa-jwt'
+import {secret} from './config'
+import upload from './service/upload'
+import serve from 'koa-static'
+import {uploadPath} from './config'
 
 // 实例化koa
 var app = new koa();
@@ -26,22 +32,24 @@ app.use(cors());
 // body参数解析
 app.use(bodyparser())
 
-// // 将文件二进制流写入body
-// app.use(koaBody({
-//   multipart: true
-// }));
-
 // 登录验证
 // app.use(koaJwt({
 //     secret,
 //   }).unless({
-//     path: [/\/register/, /\/login/, /^\/public/ ],
+//     path: [/\/user\/register/, /\/user\/login/, /^\/public/ ],
 //   })
 // )
 
 
 // 路由
-app.use(createAllRoutes())
+let router = createAllRoutes(resolve(__dirname, './controllers/*.js'));
+// 上传文件路由
+router.use('/upload',upload.routes(),upload.allowedMethods())
+
+app.use(router.routes(), router.allowedMethods())
+
+
+app.use(serve(uploadPath))
 
 // 监听3000端口
 app.listen(3000)

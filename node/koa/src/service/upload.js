@@ -1,12 +1,12 @@
-
 import multer from 'koa-multer'
 import Router from 'koa-router'
+import {uploadPath} from '../config'
 
 let router = new Router();
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'upload/')
+    cb(null, uploadPath)
   },
   //修改文件名称
   filename: function (req, file, cb) {
@@ -26,8 +26,8 @@ const upload = multer({
   }
 });
 
-
 router.post('/', upload.single('file'), async (ctx) => {
+  console.log(ctx)
   if(ctx.req.file) {
     ctx.body = {
       filename: ctx.req.file.filename//返回文件名

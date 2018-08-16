@@ -1,26 +1,10 @@
 import mongoose from 'mongoose'
-import UserService from '../service/article'
+import ArticleService from '../service/article'
 import {reqPath, get, put, post, del} from '../utils/routerDecorator'
 
-
-let sUser = new UserService();
-
-
-import Router from 'koa-router'
-import Redis from 'ioredis'
-import mongoose, { Schema } from 'mongoose'
-import Article from '../models/article'
-import ArticleService from '../service/article'
-import {reqPath, method} from '../utils/routerDecorator'
-
-let router = new Router();
-var redis = new Redis();
-
 let sArticle = new ArticleService();
-
-
 @reqPath('/article')
-export default class SaveRouter {
+export default class Article {
     @get('/list')
     async getList(ctx, next) {
         let data = await sArticle.finds();

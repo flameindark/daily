@@ -1,3 +1,5 @@
+import {resolve} from 'path'
+
 let qiniuConfig = {
   qn_ak : '6iiHASYJ5orOZzdpRNnr0xx66_1aaV05u1c1v',
   qn_sk: 'IzTyqmnhEoRmyIBApBGDjxxxV38UNMD2OoNq',
@@ -5,13 +7,13 @@ let qiniuConfig = {
   expires: 7200
 }
 const secret = 'flameindark';
-const controllersPath = './controllers/*.js';
 const DbConfig = {
   url: 'mongodb://localhost/test'
 }
+const uploadPath = resolve(__dirname, '../uploadfiles')
 export {
   qiniuConfig,
   secret,
-  controllersPath,
-  DbConfig
+  DbConfig,
+  uploadPath
 };

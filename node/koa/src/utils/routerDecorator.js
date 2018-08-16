@@ -1,6 +1,5 @@
 import Router from 'koa-router'
 import glob from 'glob'
-import {controllersPath} from '../config'
 import {resolve} from 'path'
 
 const allRouters = new Map()
@@ -49,7 +48,7 @@ const del = path => {
   })
 }
 
-const createAllRoutes = function(apiPath) {
+const createAllRoutes = function(controllersPath) {
   let router = new Router();
   glob.sync(resolve(controllersPath)).forEach(require);
   for(let [conf,controller] of allRouters){
@@ -57,7 +56,7 @@ const createAllRoutes = function(apiPath) {
     const routerPath = prefixPath+conf.path;
     router[conf.method](routerPath,controller)
   }
-  return router.routes();
+  return router;
 }
 
 export {

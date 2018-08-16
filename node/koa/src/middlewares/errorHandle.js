@@ -4,7 +4,10 @@ export default function (ctx, next) {
     ctx.body = err.status
     if (401 == err.status) {
       ctx.status = 401;
-      ctx.body = 'Protected resource, use Authorization header to get access\n';
+      ctx.body = {
+        error: 0,
+        data: '没有相应的权限...'
+      };
     } else if (404 == err.status) {
       ctx.status = 404;
       ctx.body = '没有找到...'
