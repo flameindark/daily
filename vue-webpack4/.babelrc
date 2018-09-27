@@ -1,0 +1,7 @@
+{
+  "plugins": [["lodash", { "id": ["async", "lodash-bound"] }],["import", {
+    "libraryName": "iview",
+    "libraryDirectory": "src/components"
+  }], "@babel/plugin-syntax-dynamic-import"],
+  "presets": ["@babel/preset-env"]
+}

@@ -3,9 +3,9 @@ import ArticleService from '../service/article'
 import {reqPath, get, put, post, del} from '../utils/routerDecorator'
 
 let sArticle = new ArticleService();
-@reqPath('/article')
+@reqPath('/articles')
 export default class Article {
-    @get('/list')
+    @get('/')
     async getList(ctx, next) {
         let data = await sArticle.finds();
         ctx.body = data;
