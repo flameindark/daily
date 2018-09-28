@@ -8,22 +8,13 @@ const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HappyPack = require('happypack');
-const OfflinePlugin = require('offline-plugin');
-const PrerenderSPAPlugin = require('prerender-spa-plugin')
-const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
 
 module.exports = {
   entry: {
     app: './src/index.js',
     test: './src/test.js',
     pollyfill: "@babel/polyfill"
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'), // 打包的路径
-    // chunkFilename: 'static/js/[name][chunkhash].bundle.js',
-    filename: 'static/js/[name]-[chunkhash].bundle.js' // 打包生成的文件名 [name] -> entry的键值 这里就是 'app'
   },
   resolve: {
     alias: {
@@ -35,7 +26,6 @@ module.exports = {
       {
         test: /\.vue$/,
         use: 'vue-loader',
-        // include: path.resolve(__dirname, 'src')
       },
       {
         test: /\.js$/,
@@ -80,10 +70,14 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(['dist'], {
+      root:  path.resolve(__dirname),
+      dry: true
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html', // 打包后生成的文件名
       chunks: [
-        'app', 'vendor', 'commons'
+        'app', 'vendors', 'commons', 'runtime'
       ],
       template: path.resolve(__dirname, 'index.html'), // 使用的模板
       hash:true,//防止缓存
@@ -97,7 +91,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'test/index.html', // 打包后生成的文件名
       chunks: [
-        'test', 'vendor', 'commons'
+        'test', 'vendors', 'commons', 'runtime'
       ],
       template: path.resolve(__dirname, 'index.html'), // 使用的模板
       hash:true,//防止缓存
@@ -108,49 +102,12 @@ module.exports = {
         removeAttributeQuotes: true
       }
     }),
-    new webpack.HashedModuleIdsPlugin(),
-    new MiniCssExtractPlugin({
-      chunkFilename: "static/css/[name]-[chunkhash].css",
-      filename:  'static/css/[name]-[chunkhash].css' // 生成的css文件名
-    }),
-    // new webpack.HotModuleReplacementPlugin(), // 热更新插件，供devserver使用
-    new BundleAnalyzerPlugin(), // 打包分析插件
     new VueLoaderPlugin(),
     new HappyPack({
       id: 'js',
       threads: 4,
       loaders: ['babel-loader?cacheDirectory']
-    }),
-    new OfflinePlugin({
-      safeToUseOptionalCaches: true,
-
-      caches: {
-        main: [
-          '*.js',
-          '*.html'
-        ],
-        additional: [
-          '*.woff',
-          '*.woff2'
-        ],
-        optional: [
-          ':rest:'
-        ]
-      },
-
-      ServiceWorker: {
-        events: true
-      },
-      AppCache: {
-        events: true
-      }
-    }),
-    //preload 有点问题
-    // new PrerenderSPAPlugin({
-    //   staticDir: path.join(__dirname, 'dist'),
-    //   // Required - Routes to render.
-    //   routes: [ '/' ]
-    // }),
+    })
   ],
   optimization: {
     splitChunks: {
@@ -188,7 +145,7 @@ module.exports = {
     contentBase: false, // 编译之后的的路径，可以禁用
     compress: true, // 开启gzip压缩
     host: '127.0.0.1', // 域名
-    port: '9999', // 端口
+    port: '8686', // 端口
     open: true, // 编译完自动打开浏览器
     overlay: { warnings: false, errors: true }, // 在警告时不弹出overlay，错误时弹出
     // publicPath: '/app/', // 应用根路径
@@ -210,7 +167,31 @@ module.exports = {
 }
 
 if (process.env.NODE_ENV === 'production') {
+  console.log('-----------------')
+  module.exports.output = {
+    path: path.resolve(__dirname, 'dist'), // 打包的路径
+    filename: 'static/js/[name]-[chunkhash].bundle.js' // 打包生成的文件名 [name] -> entry的键值 这里就是 'app'
+  }
   module.exports.plugins.push(
-    new CleanWebpackPlugin(['dist'])
+    new BundleAnalyzerPlugin(), // 打包分析插件
+    new webpack.HashedModuleIdsPlugin(),
+    new MiniCssExtractPlugin({
+      chunkFilename: "static/css/[name]-[chunkhash].css",
+      filename:  'static/css/[name]-[chunkhash].css' // 生成的css文件名
+    }),
+  )
+} else {
+  console.log('++++++++++')
+  module.exports.output = {
+    path: path.resolve(__dirname, 'dist'), // 打包的路径
+    filename: 'static/js/[name].bundle.js' // 打包生成的文件名 [name] -> entry的键值 这里就是 'app'
+  }
+  module.exports.plugins.push(
+    new webpack.HotModuleReplacementPlugin(), // 热更新插件，供devserver使用
+    new MiniCssExtractPlugin({
+      chunkFilename: "static/css/[name].css",
+      filename:  'static/css/[name].css' // 生成的css文件名
+    }),
   )
 }
+

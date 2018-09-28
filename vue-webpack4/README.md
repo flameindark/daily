@@ -1,3 +1,5 @@
+###一步步使用webpack4简单打包vue
+
 >环境： webpack4、vue2、yarn
 
 #### 开始(若对webpack有一些了解的话请略过该步)
@@ -340,6 +342,7 @@ import '#/common.css'
         new webpack.HashedModuleIdsPlugin(), //针对chunkhash自增(代码未变动chunkhash也会变动)的情况，添加此插件。貌似就是如此-.-
     ]
   ```
+  > **会与dev-server的热更新的冲突，所以在dev环境下就用hash就好，生产环境下使用chunkhash**
    
     
 4. preload  

@@ -1,5 +1,3 @@
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-OfflinePluginRuntime.install();
 import Vue from 'vue'
 import App from './App.vue'
 import _ from 'lodash'
@@ -11,8 +9,7 @@ import '@babel/polyfill'
 // import {Button} from 'iview'
 // Vue.component('Button', Button)
 
-
- let a = 2;
+ let a = 21;
 ((a) => {
    console.log(a)
  })(a)
@@ -39,6 +36,5 @@ _.findIndex(users, ['active', false]);
 // => 0
 
 console.log(_.findIndex(users, { 'user': 'fred', 'active': false }));
-alert('——————')
-  
-    
+
+console.log('8888888888')
