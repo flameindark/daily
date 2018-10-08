@@ -18,7 +18,7 @@ module.exports = merge(baseConfig, {
 
   // 此处告知 server bundle 使用 Node 风格导出模块(Node-style exports)
   output: {
-    filename: 'server-bundle.js',
+    filename: 'server-bundle0.0.js',
     libraryTarget: 'commonjs2',
     path: path.resolve(__dirname, 'dist')
   },

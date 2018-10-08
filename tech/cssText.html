@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CssText的使用</title>
+  <style>
+    div {
+      width: 200px;
+    }
+    /* 看来非内联样式不会不重置 */
+    #div1 {
+      background: blueviolet;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <p>下面div的本来面目被覆盖啦</p>
+  <div id="div1" style="background: cyan">我是一个普通的div,内联的背景色为cyan,font-size为normal</div>
+  <p>下面div的本来面目还在只不过打扮了下</p>
+  <div id="div2" style="background: cyan">我是一个普通的div,内联的背景色为cyan,font-size为normal</div>
+
+
+  <h3>结论</h3>
+  <p>cssText支持使用使用一个字符串设置多个样式而且是一次插入(所以效率很高，有点像js中的DocumentFragment),但是会覆盖内联样式(单独写在style标签样式中的样式不会)，所以需要在之前的的样式字符串上新增</p>
+  <p>ie9之下需要在添加的属性前多加一个分号，因为他们的style.cssText字符串后会少一个分号，所以字符串相加的时候会出现问题</p>
+</body>
+<script>
+  var oDiv = document.getElementById("div1");
+  // 会丢掉前面的background属性
+  oDiv.style.cssText = "font-weight:bold;color:#332200;"
+  var oDiv2 = document.getElementById("div2");
+  console.log(oDiv2.style)
+  oDiv2.style.cssText += "font-weight:bold;color:#332200;";
+</script>
+</html>

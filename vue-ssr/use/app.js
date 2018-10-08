@@ -12,5 +12,6 @@ export function createApp () {
     // 根实例简单的渲染应用程序组件。
     render: h => h(App)
   })
+  console.log(App)
   return { app, router }
 }
