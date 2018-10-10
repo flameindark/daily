@@ -1,0 +1,5 @@
+super market	bread	3.5	2
+super market	milk	5	1
+super market	orange juice	4	1
+convenient	bread	4	3
+convenient	milk	6	2
