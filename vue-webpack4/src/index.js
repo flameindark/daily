@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
+import Contact from './Contact.vue'
+import Home from './Home.vue'
+import VueRouter from 'vue-router'
 import _ from 'lodash'
 import $ from 'jquery'
 import '#/common.css'
@@ -9,12 +12,25 @@ import '@babel/polyfill'
 // import {Button} from 'iview'
 // Vue.component('Button', Button)
 
- let a = 21;
+Vue.use(VueRouter)
+
+const routes = [
+  {path: '/', component: Home},
+  {path:'/Contact', component: Contact}
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  routes
+})
+
+let a = 21;
 ((a) => {
-   console.log(a)
- })(a)
+  console.log(a)
+})(a)
 
 new Vue({
+  router,
   render: h => h(App)
 }).$mount('#app')
 

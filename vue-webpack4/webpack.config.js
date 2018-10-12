@@ -9,6 +9,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const HappyPack = require('happypack');
+const PrerenderSPAPlugin = require('prerender-spa-plugin')
 
 module.exports = {
   entry: {
@@ -107,6 +108,17 @@ module.exports = {
       id: 'js',
       threads: 4,
       loaders: ['babel-loader?cacheDirectory']
+    }),
+    new PrerenderSPAPlugin({
+      staticDir: path.join(__dirname, 'dist'),
+      routes: [ '/Contact' ], // 需要预渲染的路由（视你的项目而定）
+      minify: {
+        collapseBooleanAttributes: true,
+        collapseWhitespace: true,
+        decodeEntities: true,
+        keepClosingSlash: true,
+        sortAttributes: true
+      }
     })
   ],
   optimization: {
@@ -178,7 +190,7 @@ if (process.env.NODE_ENV === 'production') {
     new MiniCssExtractPlugin({
       chunkFilename: "static/css/[name]-[chunkhash].css",
       filename:  'static/css/[name]-[chunkhash].css' // 生成的css文件名
-    }),
+    })
   )
 } else {
   console.log('++++++++++')

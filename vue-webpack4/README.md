@@ -345,9 +345,24 @@ import '#/common.css'
   > **会与dev-server的热更新的冲突，所以在dev环境下就用hash就好，生产环境下使用chunkhash**
    
     
-4. preload  
-使用[prerender-spa-plugin](https://github.com/chrisvfritz/prerender-spa-plugin)插件来实现，针对静态页面提高性能
+4. prerender 
+使用[prerender-spa-plugin](https://github.com/chrisvfritz/prerender-spa-plugin)插件来实现，针对静态页面提高性能  
+基本的配置如下，能在js未加载完成的情况下就能有较完整的视觉效果，所以对于静态多的页面可以使用
+``` javascript
+new PrerenderSPAPlugin({
+  staticDir: 'dist', // 渲染后的文件放到哪个文件夹下
+  routes: [ '/Contacts' ], // 需要预渲染的路由
+  minify: {
+    collapseBooleanAttributes: true,
+    collapseWhitespace: true,
+    decodeEntities: true,
+    keepClosingSlash: true,
+    sortAttributes: true
+  }
+})
+```
 
 ##### 链接
-- [yesvods](https://github.com/yesvods/Blog/issues/15)
+- [没有了CommonsChunkPlugin，咱拿什么来分包（译）](https://github.com/yesvods/Blog/issues/15)
 - [hash,chunkhash,contenthash](https://juejin.im/post/5a4502be6fb9a0450d1162ed)
+- [Vue CLI 2&3 下的项目优化实践 —— CDN + Gzip + Prerender](https://juejin.im/post/5b97b84ee51d450e6c7492f6)
